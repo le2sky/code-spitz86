@@ -65,5 +65,6 @@ console.log(worker instanceof Worker); //대체가능성
 worker.print();
 ```
 
-**Polymorphism의 정체**
+**Polymorphism의 정체** :
+
 확장된 객체는 원본으로 대체 가능하며 생성 시점의 타입이 내부에 일관성 있게 참조된다.
