@@ -68,3 +68,42 @@ worker.print();
 **Polymorphism의 정체** :
 
 확장된 객체는 원본으로 대체 가능하며 생성 시점의 타입이 내부에 일관성 있게 참조된다.
+
+## 3. Polymorphism of Prototype
+
+자바스크립트의 내적일관성을 보장하는 방법
+
+<p align="center">
+  <img src="./resource/polymorphismofprototype.png">
+</p>
+
+## 4. Object essentials
+
+```js
+const EssentialObject = class {
+  #name = "";
+  #screen = null;
+  constructor(name) {
+    this.#name = name;
+  }
+  camouflage() {
+    this.#screen = (Math.random() * 10).toString(16).replace(".", "");
+  }
+  get name() {
+    return this.#screen || this.#name;
+  }
+};
+```
+
+- **hide state(은닉) - Maintenance of State**: 객체의 모든 속성은 private으로 선언(데이터 은닉)
+  - : 객체지향은 메모리의 참조로 움직여야 하는데 속성이 공유되는 순간 속성을 값으로 취득해서 쓰기 때문에 값 컨텍스트가 프로그램 전체에 만연하게 되고,
+    결국에는 값 컨텍스트로 인해 객체지향이 무너지게 된다.
+  - : 내부의 상태를 감춘다.
+  - : 자신의 상태에 대한 관리의 책임이 있어야 한다.
+- **encapsulation(캡슐화) - Encapsulation of Functionality**: 내부에서 무슨 일이 일어나는지 노출하면 안 된다(객체의 메소드에서 일어나는 일은 외부에서 알면 안 된다)
+  - : ATM은 내부적으로 굉장히 복잡하게 작동하지만, 사용자는 그러한 일들에 대해 알 필요도 없고 알아서도 안 된다.
+  - : 외부에서 내부의 일을 모르게 한다.
+  - : 예를 들어 setAge 라는 method는 캡슐화에 위배될 수 있다. setChild setAdult 같은 method로 캡슐화할 수 있다.
+
+이 두가지 본질을 보장하는 객체는 변화에 대한 해당 객체의 격리구간을 만들 수 있다.(Isolation of change)
+함수형 프로그래밍이나 객체지향 프로그래밍은 변화에 대한 격리에 초점을 맞춘다.
