@@ -41,8 +41,8 @@ Identifier context 특징:-
 
 부모는 자식을 대체할 수 없지만, 자식은 부모를 대체할 수 있다.
 확장된 클래스는 확장할 클래스를 대체할 수 있다는 것이 Polymorphism의
-핵심이다. 이것을 Polymorphism 안에서 **대체가능성(substitution)**이라고 한다.
-**내적일관성(internal identity)**은 어떠한 경우에도 태어났을 떄 원본 클래스를 유지하려는 속성이다. Ploymorphism은 이러한 대체가능성과 내적일관성을 합친 것이다.
+핵심이다. 이것을 Polymorphism 안에서 **대체가능성(substitution)** 이라고 한다.
+**내적일관성(internal identity)** 은 어떠한 경우에도 태어났을 떄 원본 클래스를 유지하려는 속성이다. Ploymorphism은 이러한 대체가능성과 내적일관성을 합친 것이다.
 
 ```js
 const Worker = class {
