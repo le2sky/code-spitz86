@@ -31,7 +31,7 @@ Value context 특징:
 - 상태 변화에 안전하다.
 - 연산을 기반으로 로직을 전개한다.
 
-Identifier context 특징:-
+Identifier context 특징:
 
 - 하나의 원본 사용
 - 상태 변화를 내부에서 책임짐
