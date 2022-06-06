@@ -75,7 +75,7 @@ worker.print();
 javascript는 prototype을 이용해서 대체가능성과 내적일관성을 유지한다.
 
 <p align="center">
-  <img src="./resource/polymorphismofprototype.png">
+  <img src="./resource/polymorphismofprototype.PNG">
 </p>
 
 ## 4. Object essentials
@@ -140,19 +140,19 @@ SOLID 원칙들은 소프트웨어 작업에서 프로그래머가 소스 코드
 Liskov 치환 원칙을 위배한다.
 
 <p align="center">
-  <img src="./resource/liskovsubstitusion.png">
+  <img src="./resource/liskovsubstitusion.PNG">
 </p>
 
 아래와 같이 다리로 이동한다를 제외하면 모두가 행복하면서도 업캐스팅에 안전하다. 하지만 몇몇 동물은 다리로 이동한다는 기능을 잃어버렸다.
 
 <p align="center">
-  <img src="./resource/liskovsubstitusion3.png">
+  <img src="./resource/liskovsubstitusion3.PNG">
 </p>
 
 아래와 같이 두가지 추상층으로 분리한 이후 적용하면 모두가 행복하면서도 업캐스팅에 안전하게 작성되었다.
 
 <p align="center">
-  <img src="./resource/liskovsubstitusion2.png">
+  <img src="./resource/liskovsubstitusion2.PNG">
 </p>
 
 ```
@@ -173,20 +173,20 @@ Liskov 치환 원칙을 위배한다.
 이렇게 모든 메서드가 구분이 안되면 모든 모듈은 의존되는 객체를 인식하게 된다. 나중에 객체가 변경된다면 이 부분에서 문제가 생길 수 있다.
 
 <p align="center">
-  <img src="./resource/ISP1.png">
+  <img src="./resource/ISP1.PNG">
 </p>
 
 인터페이스를 분리하지 않는 방법 중 하나는 소유(위임)를 사용해서 이 문제를 해결하는 것이다. 상위 객체의 분신을 여러개를 만든다. 분신들은 상위 객체의 자식이기 때문에 상위 객체의 상태를 공유할 수 있다.
 
 <p align="center">
-  <img src="./resource/ISP2.png">
+  <img src="./resource/ISP2.PNG">
 </p>
 
 상위 객체를 만들 때, 여러 인터페이스로 분리하고
 인터페이스에 맞게 오버라이드해서 구현한다.
 
 <p align="center">
-  <img src="./resource/ISP3.png">
+  <img src="./resource/ISP3.PNG">
 </p>
 
 - DIP(Dependency inversion) : 의존성 역전의 법칙, 다운캐스팅 금지
