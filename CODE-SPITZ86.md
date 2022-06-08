@@ -316,10 +316,12 @@ Inversion
 역전
 위임 하겠다
 대체 하겠다
-제어에 대해서 다른 어떤한 것에게 위임하는 것.
+제어에 대해서 다른 어떠한 것(프레임워크 등)에게 위임하는 것.
 ```
 
 **제어역전의 개념과 필요성** :
+객체지향에서 제어역전을 궁극적으로 목표로 삼는 이유는
+많은 버그들이 제어들이 가지고 있기 떄문에 제어를 한군데에서 하기 위함이다.
 
 개념:
 
@@ -357,3 +359,86 @@ Inversion
 현상으로 부터 원리를 알고 원리를 적용한다.
 개별 제어의 차이점만 외부에서 주입 받는다.
 ```
+
+```js
+//추상 클래스
+const View = class {
+  getElement(data) {
+    throw "override!";
+  }
+  initAni() {
+    throw "override!";
+  }
+  startAni() {
+    throw "override!";
+  }
+};
+
+const Renderer = class {
+  #view = null;
+  #base = null;
+  constructor(baseElement) {
+    this.#base = baseElement;
+  }
+
+  set view(v) {
+    if (v instanceof View) this.#view = v;
+    else throw `invalid view :${v}`;
+  }
+
+  render(data) {
+    //제어 위임
+    const base = this.#base;
+    const view = this.#view;
+
+    if (!base || !view) throw "no base of view";
+    let target = base.firstElementChild;
+
+    do base.removeChild(target);
+    while ((target = target.nextElementSibling));
+
+    base.appendChild(view.getElement(data));
+    view.initAni();
+    view.startAni();
+  }
+};
+
+const renderer = new Renderer(documnet.body);
+
+renderer.view = new (class extends View {
+  #el;
+  getElement(data) {
+    this.#el = document.createElement("div");
+    this.#el.innerHTML = `<h2>${data.title}</h2><p>${data.description}</p>`;
+    this.#el.style.cssText = `width:100%;background:${data.background}`;
+    return this.#el;
+  }
+
+  initAni() {
+    const style = this.#el.style;
+    style.marginLeft = "100%";
+    style.transition = "all 0.3s";
+  }
+  startAni() {
+    requestAnimationFrame((_) => (this.#el.style.marginLeft = 0));
+  }
+})();
+```
+
+제어는 renderer에서만 처리한다.
+
+Framework = 제어 역전을 담당한다. Library = 제어에 대한 책임이 없다
+
+## 10. 제어역전 실제 구현
+
+전략 패턴(소유) & 템플릿 메소드(상속) 패턴 = 가장 소극적인 제어역전 패턴
+<br/>
+< 컴포지트 패턴
+<br/>
+< 비지터 패턴
+<br/>
+보다 넓은 범위의 제어 역전을 실현
+
+**추상팩토리메소드 패턴** :
+왼쪽 패턴은 이미 만들어진 객체의 행위를 제어역전에 참여시킬 수 있지만 참여할 객체 자체를 생성할 수 없음
+참여할 객체를 상황에 맞게 생성하고 행위까지 위임하기 위해 추상팩토리 메소드를 사용함
