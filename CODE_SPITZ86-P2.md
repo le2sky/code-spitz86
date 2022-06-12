@@ -61,6 +61,8 @@ Model-View-ViewModel 모델로 ms에서 만들었다.
 - 바인더는 뷰와 뷰모델의 의존성을 자신으로 만듦으로서 뷰와 뷰모델의 의존성을 제거한다.
 - 뷰모델은 뷰를 모른다. (이것이 목적)
 - 바인더가 뷰와 뷰모델의 변화를 관찰한다. (양방향 바인딩이나 단방향 바인딩은 선택적)
+- 바인더가 그림을 그리기 때문에 제어의 역전을 만족
+- 뷰를 그리는 제어 구문이 바인더에 집중
 
 ## 4. TypeCheck
 
@@ -109,3 +111,54 @@ const test2 = (
 </p>
 
 ## 6. Role Design
+
+mvvm에서 바인더가 핵심이다. 바인딩은 두가지 방식이 있다. 뷰나 앵귤러의 바인더 방식은 있는 뷰를 스캔해서 바인딩을 한다. 처음부터 데이터와 연결되어 있는 뷰를 만들어서 뷰를 꽂는 리액트 방식이 있다.
+
+<p align="center">
+    <img src= "resource/roleDesign.PNG">
+</p>
+
+<p align="center">
+    <img src= "resource/roleDesign2.PNG">
+</p>
+
+- 앵귤러 방식(있는 뷰를 스캔)에서는 모델과 뷰를 분리해서 관리하기 쉽다.
+- 리액트 방식에서는 모델만 따로, 즉 스테이트나 프로퍼티만 따로 관리하는 애를 뷰와 분리해서 관리할 수 없다.
+- 바인더가 직접 HTML을 스캔해야 하는가?
+  - 바인더는 뷰모델을 이용해서 뷰를 그려주는 역할인데, HTML 에 있는 스캔정보를 자기안에 하드코딩하게 된다.
+  - 바인더가 HTML을 인식하는 부분을 밖으로 뺄 수 있다. => Scanner
+  - 원인에 따른 변화율(코드를 바꾸는 이유가 똑같은가?)
+  - 바인더가 바뀌는 이유는 뷰모델을 이용해서 뷰를 그리는 로직이 변화해서
+  - HTML을 해석하는 방법을 바꿀 때 Scanner를 바꾼다.
+- 스캐너가 바인더를 알게함으로서 HTML을 모르게 한다.(변화를 흡수)
+- 스캐너는 HTML을 스캔해서 바인더안에 하나하나의 바인더 아이템을 만들어서 끼워준다.
+- 훅 하나하나가 아이템이 된다.
+
+## 7. ViewModel
+
+```js
+const ViewModel = calss {
+  static #private = Symbol()
+  static get(data){
+    return new ViewModel(this.#private, data);
+  }
+  styles = {}
+  attributes = {}
+  properties = {}
+  events = {}
+  constructor(checker, data){
+    if(checker != ViewModel.#private) throw "use ViewModel.get()!"
+    Object.entries(data).forEach(([k, v]) => {
+      switch(k){
+        case "styles": this.styles = v; break;
+        case "attributes": this.attributes = v; break;
+        case "properties": this.properties = v; break;
+        case "events": this.events = v; break;
+        default: this[k] = v;
+      }
+    })
+    Object.seal(this)
+  }
+
+}
+```
